@@ -1,10 +1,11 @@
-
-
 #include "lvgl.h"
 #include "scr_mrg.h"
 #include "ui.h"
 #include "ui_port.h"
 #include "src/assets.h"
+
+// Подключаем реализацию приложения HelloWorld, чтобы функция app_main была доступна
+#include "apps/helloworld/helloworld_app.h"  // Подключаем логику отображения HelloWorld
 
 /* clang-format off */
 
@@ -257,6 +258,7 @@ const struct menu_icon icon_buf[] = {
     {&img_wifi,     "wifi"    , 375,  250 },
     {&img_battery,  "battery" , 45,   455 },
     {&img_gps,      "gps",      210,  455 },
+    {&img_helloworld, "helloworld", 375, 455 },
     // {&img_refresh,  "refresh" , 375,  455 },
 };
 
@@ -356,9 +358,10 @@ static void menu_btn_event(lv_event_t *e)
          * 5 --- SCREEN6_ID  --- wifi
          * 6 --- SCREEN7_ID  --- battery
          * 7 --- SCREEN10_ID --- gps
+         * 8 --- SCREEN11_ID --- helloworld
          ************ page2 ************
-         * 8 --- SCREEN8_ID  --- shutdown
-         * 9 --- SCREEN9_ID  --- sleep
+         * 9 --- SCREEN8_ID  --- shutdown
+         * 10 --- SCREEN9_ID  --- sleep
         */
         switch (data) {
             case 0: scr_mgr_push(SCREEN1_ID, false); break;
@@ -369,8 +372,9 @@ static void menu_btn_event(lv_event_t *e)
             case 5: scr_mgr_push(SCREEN6_ID, false); break;
             case 6: scr_mgr_push(SCREEN7_ID, false); break;
             case 7: scr_mgr_push(SCREEN10_ID, false); break;
-            case 8: scr_mgr_push(SCREEN8_ID, false); break;
-            case 9: scr_mgr_push(SCREEN9_ID, false); break;
+            case 8: scr_mgr_push(SCREEN11_ID, false); break;
+            case 9: scr_mgr_push(SCREEN8_ID, false); break;
+            case 10: scr_mgr_push(SCREEN9_ID, false); break;
             default: break;
         }
     }
@@ -2559,6 +2563,43 @@ static scr_lifecycle_t screen9 = {
     .destroy = destroy9,
 };
 #endif
+//************************************[ screen 11 ]****************************************** helloworld
+#if 1
+static void scr11_btn_event_cb(lv_event_t * e)
+{
+    if(e->code == LV_EVENT_CLICKED){
+        scr_mgr_pop(false);
+    }
+}
+
+static void create11(lv_obj_t *parent)
+{ 
+    // Создаем заголовок с кнопкой "назад"
+    scr_back_btn_create(parent, "Hello World", scr11_btn_event_cb);
+
+    // Вызываем функцию отображения HelloWorld
+    helloworld_app(parent);
+}
+
+static void entry11(void) {
+    // Действия при входе на экран
+}
+
+static void exit11(void) {
+    // Действия при выходе с экрана
+}
+
+static void destroy11(void) {
+    // Действия при уничтожении экрана
+}
+
+static scr_lifecycle_t screen11 = {
+    .create = create11,
+    .entry = entry11,
+    .exit  = exit11,
+    .destroy = destroy11,
+};
+#endif
 //************************************[ UI ENTRY ]******************************************
 static lv_obj_t *menu_keypad;
 static lv_timer_t *menu_timer = NULL;
@@ -2655,6 +2696,7 @@ void ui_entry(void)
     scr_mgr_register(SCREEN8_ID,   &screen8);   // shutdown
     scr_mgr_register(SCREEN9_ID,   &screen9);   // sleep
     scr_mgr_register(SCREEN10_ID,  &screen10);  // gps
+    scr_mgr_register(SCREEN11_ID,  &screen11);  // helloworld
 
     scr_mgr_switch(SCREEN0_ID, false); // set root screen
     scr_mgr_set_anim(LV_SCR_LOAD_ANIM_NONE, LV_SCR_LOAD_ANIM_NONE, LV_SCR_LOAD_ANIM_NONE);

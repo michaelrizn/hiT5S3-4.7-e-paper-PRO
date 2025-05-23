@@ -9,3 +9,4 @@
 *.lock
 script/
 docs/image_source/
+.qodo

@@ -4,8 +4,8 @@
 #include "ui_port.h"
 #include "src/assets.h"
 
-// Подключаем реализацию приложения HelloWorld, чтобы функция app_main была доступна
-#include "apps/helloworld/helloworld_app.h"  // Подключаем логику отображения HelloWorld
+// Подключаем реализацию приложения Apps List, чтобы функция apps_list_app была доступна
+#include "apps_list/apps_list_app.h"  // Подключаем логику отображения списка приложений
 
 /* clang-format off */
 
@@ -258,7 +258,7 @@ const struct menu_icon icon_buf[] = {
     {&img_wifi,     "wifi"    , 375,  250 },
     {&img_battery,  "battery" , 45,   455 },
     {&img_gps,      "gps",      210,  455 },
-    {&img_helloworld, "helloworld", 375, 455 },
+    {&img_apps_list, "приложения", 375, 455 },
     // {&img_refresh,  "refresh" , 375,  455 },
 };
 
@@ -2575,10 +2575,10 @@ static void scr11_btn_event_cb(lv_event_t * e)
 static void create11(lv_obj_t *parent)
 { 
     // Создаем заголовок с кнопкой "назад"
-    scr_back_btn_create(parent, "Hello World", scr11_btn_event_cb);
+    scr_back_btn_create(parent, "Apps", scr11_btn_event_cb);
 
-    // Вызываем функцию отображения HelloWorld
-    helloworld_app(parent);
+    // Вызываем функцию отображения списка приложений
+    apps_list_app(parent);
 }
 
 static void entry11(void) {

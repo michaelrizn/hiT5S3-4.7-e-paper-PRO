@@ -18,7 +18,7 @@ LV_IMG_DECLARE(img_sleep)
 LV_IMG_DECLARE(img_start)
 LV_IMG_DECLARE(img_test)
 LV_IMG_DECLARE(img_wifi)
-LV_IMG_DECLARE(img_helloworld)
+LV_IMG_DECLARE(img_apps_list)
 
 LV_FONT_DECLARE(Font_Mono_Bold_20);
 LV_FONT_DECLARE(Font_Mono_Bold_25);

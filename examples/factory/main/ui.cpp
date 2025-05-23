@@ -3,6 +3,7 @@
 #include "ui.h"
 #include "ui_port.h"
 #include "src/assets.h"
+#include "apps/helloworld/helloworld_app.h"
 
 // Подключаем реализацию приложения Apps List, чтобы функция apps_list_app была доступна
 #include "apps_list/apps_list_app.h"  // Подключаем логику отображения списка приложений
@@ -2563,7 +2564,7 @@ static scr_lifecycle_t screen9 = {
     .destroy = destroy9,
 };
 #endif
-//************************************[ screen 11 ]****************************************** helloworld
+//************************************[ screen 11 ]****************************************** apps_list
 #if 1
 static void scr11_btn_event_cb(lv_event_t * e)
 {
@@ -2576,28 +2577,43 @@ static void create11(lv_obj_t *parent)
 { 
     // Создаем заголовок с кнопкой "назад"
     scr_back_btn_create(parent, "Apps", scr11_btn_event_cb);
-
     // Вызываем функцию отображения списка приложений
     apps_list_app(parent);
 }
-
-static void entry11(void) {
-    // Действия при входе на экран
-}
-
-static void exit11(void) {
-    // Действия при выходе с экрана
-}
-
-static void destroy11(void) {
-    // Действия при уничтожении экрана
-}
+static void entry11(void) { }
+static void exit11(void) { }
+static void destroy11(void) { }
 
 static scr_lifecycle_t screen11 = {
     .create = create11,
     .entry = entry11,
     .exit  = exit11,
     .destroy = destroy11,
+};
+#endif
+//************************************[ screen 12 ]****************************************** helloworld
+#if 1
+static void scr12_btn_event_cb(lv_event_t * e)
+{
+    if(e->code == LV_EVENT_CLICKED){
+        scr_mgr_pop(false);
+    }
+}
+
+static void create12(lv_obj_t *parent)
+{ 
+    scr_back_btn_create(parent, "Hello World", scr12_btn_event_cb);
+    helloworld_app(parent);
+}
+static void entry12(void) { }
+static void exit12(void) { }
+static void destroy12(void) { }
+
+static scr_lifecycle_t screen12 = {
+    .create = create12,
+    .entry = entry12,
+    .exit  = exit12,
+    .destroy = destroy12,
 };
 #endif
 //************************************[ UI ENTRY ]******************************************
@@ -2696,7 +2712,8 @@ void ui_entry(void)
     scr_mgr_register(SCREEN8_ID,   &screen8);   // shutdown
     scr_mgr_register(SCREEN9_ID,   &screen9);   // sleep
     scr_mgr_register(SCREEN10_ID,  &screen10);  // gps
-    scr_mgr_register(SCREEN11_ID,  &screen11);  // helloworld
+    scr_mgr_register(SCREEN11_ID,  &screen11);  // apps_list
+    scr_mgr_register(SCREEN12_ID,  &screen12);  // helloworld
 
     scr_mgr_switch(SCREEN0_ID, false); // set root screen
     scr_mgr_set_anim(LV_SCR_LOAD_ANIM_NONE, LV_SCR_LOAD_ANIM_NONE, LV_SCR_LOAD_ANIM_NONE);

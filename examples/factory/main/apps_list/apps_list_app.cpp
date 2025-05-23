@@ -59,7 +59,7 @@ void apps_list_app(lv_obj_t *parent)
 {
     // Статический список известных приложений с их ID экранов
     static app_info_t predefined_apps[] = {
-        {"Hello World", "helloworld", SCREEN11_ID}
+        {"Hello World", "helloworld", SCREEN12_ID}
         // Можно добавить другие статические приложения
     };
     
@@ -112,28 +112,35 @@ void apps_list_app(lv_obj_t *parent)
                     strcmp(entry->d_name, "apps_list") == 0) {
                     continue;
                 }
-                
-                // Проверяем, не является ли это уже известным приложением
+                // Проверяем, не является ли это уже известным приложением (predefined)
                 bool is_known = false;
+                for (int i = 0; i < predefined_count; i++) {
+                    if (strcmp(entry->d_name, predefined_apps[i].folder) == 0) {
+                        is_known = true;
+                        break;
+                    }
+                }
+                if (is_known) {
+                    // Уже есть в predefined_apps, не добавляем второй раз
+                    continue;
+                }
+                // Проверяем, не добавлено ли уже динамически
                 for (int i = 0; i < app_count; i++) {
                     if (strcmp(entry->d_name, apps[i].folder) == 0) {
                         is_known = true;
                         break;
                     }
                 }
-                
-                if (!is_known) {
-                    // Выделяем память и копируем имя папки
-                    char *folder_copy = (char *)malloc(strlen(entry->d_name) + 1);
-                    if (folder_copy) {
-                        strcpy(folder_copy, entry->d_name);
-                        
-                        // Добавляем новое приложение (без известного ID экрана)
-                        apps[app_count].folder = folder_copy;
-                        apps[app_count].name = folder_to_display_name(folder_copy);
-                        apps[app_count].screen_id = -1; // Неизвестный ID
-                        app_count++;
-                    }
+                if (is_known) continue;
+                // Выделяем память и копируем имя папки
+                char *folder_copy = (char *)malloc(strlen(entry->d_name) + 1);
+                if (folder_copy) {
+                    strcpy(folder_copy, entry->d_name);
+                    // Добавляем новое приложение (без известного ID экрана)
+                    apps[app_count].folder = folder_copy;
+                    apps[app_count].name = folder_to_display_name(folder_copy);
+                    apps[app_count].screen_id = -1; // Неизвестный ID
+                    app_count++;
                 }
             }
             

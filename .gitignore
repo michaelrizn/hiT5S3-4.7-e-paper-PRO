@@ -10,3 +10,4 @@
 script/
 docs/image_source/
 .qodo
+.DS_Store

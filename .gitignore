@@ -11,3 +11,5 @@ script/
 docs/image_source/
 .qodo
 .DS_Store
+examples/factory_ft5536/
+examples/touch_ft5536/
